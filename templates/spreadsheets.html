@@ -1,0 +1,31 @@
+{{define "content"}}
+<section>
+  <h2>Spreadsheets</h2>
+  <p>Use this view as a simple job tracker and quick business snapshot.</p>
+</section>
+
+<section>
+  <h3>Job snapshot</h3>
+  <article>
+    <ul>
+      <li>Pending: {{.Summary.Pending}}</li>
+      <li>In Progress: {{.Summary.InProgress}}</li>
+      <li>Completed: {{.Summary.Completed}}</li>
+      <li>Total profit: ${{printf "%.2f" .Summary.TotalProfit}}</li>
+    </ul>
+  </article>
+</section>
+
+<section>
+  <h3>All jobs</h3>
+  {{range .Jobs}}
+  <article>
+    <h4>{{.Title}}</h4>
+    <p><strong>Status:</strong> {{.Status}} • <strong>Due:</strong> {{.DueDate}} • <strong>Client:</strong> {{.ClientName}}</p>
+    <p><strong>Revenue:</strong> ${{printf "%.2f" .Revenue}} • <strong>Expenses:</strong> ${{printf "%.2f" .Expenses}} • <strong>Profit:</strong> ${{printf "%.2f" .Profit}}</p>
+  </article>
+  {{else}}
+  <p>No jobs yet.</p>
+  {{end}}
+</section>
+{{end}}

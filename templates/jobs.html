@@ -1,0 +1,110 @@
+{{define "content"}}
+<section>
+  <div class="grid">
+    <div>
+      <h2>{{if .IsAdmin}}Jobs dashboard{{else}}Your jobs workspace{{end}}</h2>
+      <p>{{if .IsAdmin}}Track your upcoming work and keep every client moving.{{else}}Focus on the next job, add work quickly, and keep your day moving.{{end}}</p>
+    </div>
+    {{if .IsAdmin}}
+    <div>
+      <article>
+        <h3>At a glance</h3>
+        <ul>
+          <li>Pending: {{.Summary.Pending}}</li>
+          <li>In Progress: {{.Summary.InProgress}}</li>
+          <li>Completed: {{.Summary.Completed}}</li>
+          <li>Profit: ${{printf "%.2f" .Summary.TotalProfit}}</li>
+        </ul>
+      </article>
+    </div>
+    {{else}}
+    <div>
+      <article>
+        <h3>Next job</h3>
+        {{if .Jobs}}
+        {{range .Jobs}}
+        {{if or (eq .Status "Pending") (eq .Status "In Progress")}}
+        <p><strong>{{.Title}}</strong></p>
+        <p><small>{{.ClientName}} • Due {{.DueDate}} • {{.Status}}</small></p>
+        {{break}}
+        {{end}}
+        {{end}}
+        {{else}}
+        <p>No jobs yet. Add your first one below.</p>
+        {{end}}
+      </article>
+    </div>
+    {{end}}
+  </div>
+</section>
+
+<section>
+  <h3>{{if .IsAdmin}}Create job{{else}}Add new job{{end}}</h3>
+  <form method="post">
+    <input type="hidden" name="action" value="create">
+    <div class="grid">
+      <label>Title<input name="title" required></label>
+      <label>Client<select name="client_id">
+        {{range .Clients}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
+      </select></label>
+      <label>Due date<input type="date" name="due_date" required></label>
+      <label>Status<select name="status">
+        <option>Pending</option>
+        <option>In Progress</option>
+        <option>Completed</option>
+      </select></label>
+    </div>
+    <div class="grid">
+      <label>Revenue<input type="number" step="0.01" name="revenue" value="0"></label>
+      <label>Expenses<input type="number" step="0.01" name="expenses" value="0"></label>
+    </div>
+    <label>Notes<textarea name="notes" rows="3"></textarea></label>
+    <button type="submit">Save job</button>
+  </form>
+</section>
+
+<section>
+  <h3>{{if .IsAdmin}}Upcoming jobs{{else}}Your jobs{{end}}</h3>
+  {{range .Jobs}}
+  <article>
+    <h4>{{.Title}}</h4>
+    <p><strong>Client:</strong> {{.ClientName}} • <strong>Due:</strong> {{.DueDate}}</p>
+    <p><strong>Status:</strong> {{.Status}} • Revenue: ${{printf "%.2f" .Revenue}} • Expenses: ${{printf "%.2f" .Expenses}} • Profit: ${{printf "%.2f" .Profit}}</p>
+    <p>{{.Notes}}</p>
+    <form method="post">
+      <input type="hidden" name="action" value="update">
+      <input type="hidden" name="id" value="{{.ID}}">
+      {{ $job := . }}
+      <div class="grid">
+        <label>Title<input name="title" value="{{.Title}}" required></label>
+        <label>Client<select name="client_id">
+          {{range $.Clients}}<option value="{{.ID}}" {{if eq $job.ClientID .ID}}selected{{end}}>{{.Name}}</option>{{end}}
+        </select></label>
+        <label>Due date<input type="date" name="due_date" value="{{.DueDate}}" required></label>
+        <label>Status<select name="status">
+          <option {{if eq .Status "Pending"}}selected{{end}}>Pending</option>
+          <option {{if eq .Status "In Progress"}}selected{{end}}>In Progress</option>
+          <option {{if eq .Status "Completed"}}selected{{end}}>Completed</option>
+        </select></label>
+      </div>
+      <div class="grid">
+        <label>Revenue<input type="number" step="0.01" name="revenue" value="{{.Revenue}}"></label>
+        <label>Expenses<input type="number" step="0.01" name="expenses" value="{{.Expenses}}"></label>
+      </div>
+      <label>Notes<textarea name="notes" rows="3">{{.Notes}}</textarea></label>
+      <div class="grid">
+        <button type="submit">Update</button>
+        <a role="button" class="secondary" href="/receipt/{{.ID}}">Receipt</a>
+      </div>
+    </form>
+    <form method="post" class="inline-form">
+      <input type="hidden" name="action" value="delete">
+      <input type="hidden" name="id" value="{{.ID}}">
+      <button type="submit" class="secondary outline">Delete</button>
+    </form>
+  </article>
+  {{else}}
+  <p>No jobs yet. Add your first one above.</p>
+  {{end}}
+</section>
+{{end}}

@@ -1,0 +1,47 @@
+{{define "content"}}
+<section>
+  <h2>Clients</h2>
+  <p>Keep your client details handy for fast scheduling and follow-up.</p>
+</section>
+
+<section>
+  <h3>Add client</h3>
+  <form method="post">
+    <input type="hidden" name="action" value="create">
+    <div class="grid">
+      <label>Name<input name="name" required></label>
+      <label>Phone<input name="phone" required></label>
+    </div>
+    <label>Address<textarea name="address" rows="2" required></textarea></label>
+    <button type="submit">Save client</button>
+  </form>
+</section>
+
+<section>
+  <h3>Client list</h3>
+  {{range .Clients}}
+  <article>
+    <h4>{{.Name}}</h4>
+    <form method="post">
+      <input type="hidden" name="action" value="update">
+      <input type="hidden" name="id" value="{{.ID}}">
+      <div class="grid">
+        <label>Name<input name="name" value="{{.Name}}" required></label>
+        <label>Phone<input name="phone" value="{{.Phone}}" required></label>
+      </div>
+      <label>Address<textarea name="address" rows="2" required>{{.Address}}</textarea></label>
+      <div class="grid">
+        <button type="submit">Update</button>
+      </div>
+    </form>
+    <form method="post">
+      <input type="hidden" name="action" value="delete">
+      <input type="hidden" name="id" value="{{.ID}}">
+      <button type="submit" class="secondary outline">Delete</button>
+    </form>
+  </article>
+  {{else}}
+  <p>No clients yet.</p>
+  {{end}}
+</section>
+{{end}}

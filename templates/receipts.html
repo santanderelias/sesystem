@@ -1,0 +1,20 @@
+{{define "content"}}
+<section>
+  <h2>Receipts</h2>
+  <p>Review completed jobs and open customer-ready receipts from one place.</p>
+</section>
+
+<section>
+  <h3>Completed jobs</h3>
+  {{range .Jobs}}
+  <article>
+    <h4>{{.Title}}</h4>
+    <p><strong>Client:</strong> {{.ClientName}}</p>
+    <p><strong>Revenue:</strong> ${{printf "%.2f" .Revenue}} • <strong>Expenses:</strong> ${{printf "%.2f" .Expenses}} • <strong>Profit:</strong> ${{printf "%.2f" .Profit}}</p>
+    <a role="button" href="/receipt/{{.ID}}">Open receipt</a>
+  </article>
+  {{else}}
+  <p>No completed jobs yet.</p>
+  {{end}}
+</section>
+{{end}}

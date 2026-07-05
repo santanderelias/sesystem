@@ -1,0 +1,54 @@
+{{define "content"}}
+<section>
+  <h2>Users</h2>
+  <p>Admins can create and manage staff accounts, while each user stays in their own workspace.</p>
+</section>
+
+<section>
+  <h3>Create user</h3>
+  <form method="post">
+    <input type="hidden" name="action" value="create">
+    <div class="grid">
+      <label>Username<input name="username" required></label>
+      <label>Password<input type="password" name="password" required></label>
+      <label>Role<select name="role">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select></label>
+    </div>
+    <button type="submit">Save user</button>
+  </form>
+</section>
+
+<section>
+  <h3>Existing users</h3>
+  {{range .Users}}
+  <article>
+    <h4>{{.Username}}</h4>
+    <p><strong>Role:</strong> {{.Role}}</p>
+    <form method="post">
+      <input type="hidden" name="action" value="update">
+      <input type="hidden" name="id" value="{{.ID}}">
+      <div class="grid">
+        <label>Username<input name="username" value="{{.Username}}" required></label>
+        <label>Password<input type="password" name="password" placeholder="Leave blank to keep current password"></label>
+        <label>Role<select name="role">
+          <option value="user" {{if eq .Role "user"}}selected{{end}}>User</option>
+          <option value="admin" {{if eq .Role "admin"}}selected{{end}}>Admin</option>
+        </select></label>
+      </div>
+      <div class="grid">
+        <button type="submit">Update</button>
+      </div>
+    </form>
+    <form method="post">
+      <input type="hidden" name="action" value="delete">
+      <input type="hidden" name="id" value="{{.ID}}">
+      <button type="submit" class="secondary outline">Delete</button>
+    </form>
+  </article>
+  {{else}}
+  <p>No users yet.</p>
+  {{end}}
+</section>
+{{end}}

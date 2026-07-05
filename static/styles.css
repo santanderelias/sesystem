@@ -1,0 +1,96 @@
+:root {
+  color-scheme: light;
+}
+body {
+  min-height: 100vh;
+  padding: 1rem;
+}
+body > main.container {
+  width: 100%;
+}
+nav {
+  padding: 0.25rem 0;
+}
+nav ul {
+  margin-bottom: 0;
+}
+nav form {
+  margin: 0;
+}
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.45rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+.nav-links li {
+  display: inline-flex;
+  align-items: center;
+}
+.nav-links a {
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.nav-links a.contrast {
+  background: var(--pico-primary-background);
+  color: var(--pico-primary-inverse);
+}
+nav button {
+  width: auto;
+  min-height: auto;
+  padding: 0.2rem 0.55rem;
+  margin: 0;
+}
+header {
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  margin-bottom: 1.5rem;
+}
+.flash {
+  margin-bottom: 1rem;
+  background: #fff3cd;
+  color: #664d03;
+  border: 1px solid #ffecb5;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+.inline-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+main.container > article {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+main.container section > article,
+main.container section {
+  margin-bottom: 1rem;
+}
+button, input, select, textarea {
+  min-height: 44px;
+}
+input {
+  margin-bottom: 0.75rem;
+}
+button {
+  width: 100%;
+}
+@media (max-width: 768px) {
+  body {
+    padding: 0.75rem;
+  }
+  main.container > article {
+    max-width: 100%;
+    padding: 1rem;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

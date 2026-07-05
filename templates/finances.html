@@ -1,0 +1,36 @@
+{{define "content"}}
+<section>
+  <h2>Finances</h2>
+  <p>Monitor revenue, expenses, and profit at a glance.</p>
+</section>
+
+<section>
+  <article>
+    <h3>Summary</h3>
+    <ul>
+      <li>Total revenue: ${{printf "%.2f" .Summary.TotalRevenue}}</li>
+      <li>Total expenses: ${{printf "%.2f" .Summary.TotalExpenses}}</li>
+      <li>Total profit: ${{printf "%.2f" .Summary.TotalProfit}}</li>
+    </ul>
+  </article>
+</section>
+
+<section>
+  <h3>Job financials</h3>
+  {{range .Jobs}}
+  <article>
+    <h4>{{.Title}}</h4>
+    <p>{{.ClientName}} • {{.Status}}</p>
+    <form method="post" class="grid">
+      <input type="hidden" name="id" value="{{.ID}}">
+      <label>Revenue<input type="number" step="0.01" name="revenue" value="{{.Revenue}}"></label>
+      <label>Expenses<input type="number" step="0.01" name="expenses" value="{{.Expenses}}"></label>
+      <button type="submit">Update</button>
+    </form>
+    <p><strong>Profit:</strong> ${{printf "%.2f" .Profit}}</p>
+  </article>
+  {{else}}
+  <p>No jobs yet.</p>
+  {{end}}
+</section>
+{{end}}
